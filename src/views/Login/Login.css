@@ -42,3 +42,7 @@ body {
     border: 1px solid #EEE;
     width: 50%;
 }
+
+.error-text {
+    color: red;
+}

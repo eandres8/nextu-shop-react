@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 // Import Materialize
 import M from "materialize-css";
 import './Login.css';
@@ -8,10 +7,61 @@ class Login extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			user: '',
+			pass: '',
+			error: ''
+		};
+		this.handleUser = this.handleUser.bind(this);
+		this.handlePass = this.handlePass.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
 		M.AutoInit();
+	}
+
+	handleUser(event) {
+		let {value} = event.target;
+		this.setState({ user: value, error: '' });
+	}
+
+	handlePass(event) {
+		let { value } = event.target;
+		this.setState({ pass: value, error: '' });
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		let error = '';
+		console.log("state del form", this.state);
+
+		if ( this.state.user == '' ) {
+			error = 'El usuario es obligatorio';
+		}else if (this.state.pass == '') {
+			error = 'La contraseña es obligatoria';
+		}
+
+		if ( error != '' ) {
+			this.setState({error});
+			return false;
+		}
+
+		let body = {
+			user: this.state.user,
+			pass: this.state.pass,
+		};
+
+		fetch('http://localhost:3000/login', {
+			method: 'POST',
+			body,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then( data => {
+			console.warn( "data", data );
+		} ).catch( err => console.error("error", err) );
+
 	}
 
 	render() {
@@ -26,7 +76,7 @@ class Login extends Component {
 
 							<h5 className="indigo-text">Inicia Sesión</h5>
 
-							<form className="col s12">
+							<form className="col s12" onSubmit={this.handleSubmit}>
 								<div className='row'>
 									<div className='col s12'>
 									</div>
@@ -35,15 +85,19 @@ class Login extends Component {
 								<div className='row'>
 									<div className='input-field col s12'>
 										<label>Enter your email</label>
-										<input className='validate' type='email' name='email' id='email' />
+										<input className='validate' type='email' value={this.state.user || ''} onChange={this.handleUser} />
 									</div>
 								</div>
 
 								<div className='row'>
 									<div className='input-field col s12'>
-										<input className='validate' type='password' name='password' id='password' />
+										<input className='validate' type='password' value={this.state.pass || ''} onChange={this.handlePass} />
 										<label>Enter your password</label>
 									</div>
+								</div>
+
+								<div className='row'>
+									{ this.state.error && <label className='error-text' >{this.state.error}</label> }
 								</div>
 
 								<br />
@@ -61,8 +115,5 @@ class Login extends Component {
 	}
 }
 
-Login.propTypes = {
-
-};
 
 export default Login;
