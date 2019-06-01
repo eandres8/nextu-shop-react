@@ -34,7 +34,6 @@ class Login extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 		let error = '';
-		console.log("state del form", this.state);
 
 		if ( this.state.user == '' ) {
 			error = 'El usuario es obligatorio';
@@ -54,12 +53,20 @@ class Login extends Component {
 
 		fetch('http://localhost:3000/login', {
 			method: 'POST',
-			body,
+			body: JSON.stringify(body),
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		}).then( data => {
+		})
+		.then( data => data.json() )
+		.then( data => {
 			console.warn( "data", data );
+			if ( data.ok ) {
+				this.props.history.push('/');
+			} else {
+				this.setState({error: data.message});
+			}
+
 		} ).catch( err => console.error("error", err) );
 
 	}
