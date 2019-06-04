@@ -1,0 +1,8 @@
+.app-frame-content {
+    height: 100vh;
+    background-image: url('../../assets/main-fondo.jpg');
+}
+
+.container-backg {
+    background: #fff;
+}
