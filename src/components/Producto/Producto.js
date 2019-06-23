@@ -18,10 +18,10 @@ const Producto = ({ id, img, name, price, units}) => {
                 <div className="card-action">
                     <div className="row">
                         <div className="col s6 m6">
-                            <Link className="btn waves-effect waves-light" to={`/detalle/${id}`}>Ver más</Link>
+                            <Link className="btn waves-effect waves-light btn-small" to={`/detalle/${id}`}>Ver más</Link>
                         </div>
                         <div className="col s3 m3">
-                            <button className="btn waves-effect waves-light btn-amarillo" type="button">
+                            <button className="btn waves-effect waves-light btn-small btn-amarillo" type="button">
                                 <i className="material-icons">add</i>
                             </button>
                         </div>

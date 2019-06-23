@@ -23,7 +23,7 @@ class Detalle extends Component {
 
     getProducto = ( id ) => {
         this.setState({loading:true});
-        fetch(`${SERVER}/products/${id}`)
+        fetch(`${SERVER}/productos/${id}`)
             .then( data => data.json() )
             .then( product => {
                 let producto = { ...product, img: `${SERVER}/img/${product.img}` };

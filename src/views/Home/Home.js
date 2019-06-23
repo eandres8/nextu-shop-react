@@ -26,7 +26,7 @@ class Home extends Component {
 
     getProductos = () => {
         this.setState({loading: true});
-        let urlS = `${SERVER}/products`;
+        let urlS = `${SERVER}/productos`;
         fetch( urlS )
             .then( data => data.json() )
             .then( products => {
@@ -53,7 +53,7 @@ class Home extends Component {
         if ( e.target.value == '' ) {
             this.setState({lista: this.state.productos});
         } else {
-            let array = this.state.productos.filter(p => p.name.indexOf(e.target.value) >= 0 );
+            let array = this.state.productos.filter(p => p.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 );
             this.setState({ lista: array });
         }
     }
