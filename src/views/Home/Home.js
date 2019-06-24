@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import AppFrame from '../../components/AppFrame/AppFrame';
+import { connect } from 'react-redux';
 // Import Materialize
 import M from "materialize-css";
 import './Home.css';
+
+// Components
 import Producto from '../../components/Producto/Producto';
-import { SERVER } from '../../constants';
+// API
+import { requestProducts } from '../../api/productos.api';
+// actions
+import { setearProductos } from '../../actions/productos.action';
 
 class Home extends Component {
 
     constructor() {
         super();
         this.state = {
-            productos: [],
-            loading: false,
-            lista: [],
-            filtro: ''
+            filtro : '',
+            loading : false,
+            lista: []
         };
         this.filtrar = this.filtrar.bind(this);
     }
@@ -25,25 +30,19 @@ class Home extends Component {
     }
 
     getProductos = () => {
-        this.setState({loading: true});
-        let urlS = `${SERVER}/productos`;
-        fetch( urlS )
-            .then( data => data.json() )
-            .then( products => {
-                let items = products.map( p => {
-                    return { ...p, img: `${SERVER}/img/${p.img}` };
-                } );
-                this.setState( { productos: items, lista: items } );
-                console.log("estado", this.state );
-                this.setState({ loading: false });
+        this.setState({ loading: true });
+        requestProducts()
+            .then( data => {
+                console.log("recibido", data);
+                if ( data ){
+                    this.setState({ loading: false, lista: data });
+                    this.props.setearProductos( data );
+                }
             } )
-            .catch( err => {
-                this.setState({ productos: [], lista: [], loading: false});
-                alert('error: ' + JSON.stringify(err) );
-            } );
+            .catch( err => console.warn(err) );
     }
 
-    loading = () => {
+    loader = () => {
         return this.state.loading && (<div className="progress">
             <div className="indeterminate"></div>
         </div>);
@@ -51,9 +50,9 @@ class Home extends Component {
 
     filtrar = ( e ) => {
         if ( e.target.value == '' ) {
-            this.setState({lista: this.state.productos});
+            this.setState({lista: this.props.productos});
         } else {
-            let array = this.state.productos.filter(p => p.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 );
+            let array = this.props.productos.filter(p => p.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 );
             this.setState({ lista: array });
         }
     }
@@ -75,7 +74,7 @@ class Home extends Component {
                                     </form>
                                 </div>
                             </nav>
-                            { this.loading() }
+                            { this.loader() }
                             <div className="row">
                                 {
                                     this.state.lista.map( producto => <Producto key={producto.id} {...producto} /> )
@@ -89,4 +88,12 @@ class Home extends Component {
     } // FIN render
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    productos: state.productos.productos
+});
+
+const mapDispatchToProps = dispatch => ({
+    setearProductos: value => dispatch( setearProductos( value ) )
+});
+
+export default connect( mapStateToProps, mapDispatchToProps )(Home);
