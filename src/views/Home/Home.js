@@ -10,7 +10,7 @@ import Producto from '../../components/Producto/Producto';
 // API
 import { requestProducts } from '../../api/productos.api';
 // actions
-import { setearProductos } from '../../actions/productos.action';
+import { setearProductos, setCarrito, replaceCarrito } from '../../actions/productos.action';
 
 class Home extends Component {
 
@@ -36,7 +36,7 @@ class Home extends Component {
                 console.log("recibido", data);
                 if ( data ){
                     this.setState({ loading: false, lista: data });
-                    this.props.setearProductos( data );
+                    this.props._setearProductos( data );
                 }
             } )
             .catch( err => console.warn(err) );
@@ -55,6 +55,17 @@ class Home extends Component {
             let array = this.props.productos.filter(p => p.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0 );
             this.setState({ lista: array });
         }
+    }
+
+    verValor = ( e ) => {
+        let producto = this.props.productos.find( p => p.id == e.id );
+        let carritoAux = this.props.carrito.filter( c => c.id == e.id );
+        if ( carritoAux.length == 0 )
+            this.props._setCarrito( {...producto, cantidad: e.cantidad } );
+        else {
+            this.props._replaceCarrito( {...producto, cantidad: e.cantidad } );
+        }
+
     }
 
     render() {
@@ -77,7 +88,7 @@ class Home extends Component {
                             { this.loader() }
                             <div className="row">
                                 {
-                                    this.state.lista.map( producto => <Producto key={producto.id} {...producto} /> )
+                                    this.state.lista.map(producto => <Producto key={producto.id} {...producto} setCarrito={this.verValor} /> )
                                 }
                             </div>
                         </div>
@@ -89,11 +100,14 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-    productos: state.productos.productos
+    productos: state.productos.productos,
+    carrito: state.productos.carrito
 });
 
 const mapDispatchToProps = dispatch => ({
-    setearProductos: value => dispatch( setearProductos( value ) )
+    _setearProductos: value => dispatch( setearProductos( value ) ),
+    _setCarrito: value => dispatch( setCarrito( value ) ),
+    _replaceCarrito: value => dispatch( replaceCarrito(value) )
 });
 
 export default connect( mapStateToProps, mapDispatchToProps )(Home);
