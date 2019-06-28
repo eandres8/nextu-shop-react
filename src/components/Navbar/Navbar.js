@@ -23,7 +23,7 @@ class Navbar extends Component {
                                 <Link to="/carrito">
                                     <i className="material-icons">shopping_cart</i>
                                 </Link>
-                                <span className="badge">{this.props.unidades}</span>
+                                <span className="badge note-badge">{this.props.unidades}</span>
                             </li>
                             <li className="menu-item-route">
                                 <Link to="/login"><i className="material-icons">exit_to_app</i></Link>

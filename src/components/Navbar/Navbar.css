@@ -16,3 +16,14 @@ nav {
 .material-icons {
     color: #37474f !important;
 }
+
+.note-badge {
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    color: white !important;
+    background-color: red;
+    border-radius: 50%;
+    padding: 0;
+    min-width: 25px !important;
+}
