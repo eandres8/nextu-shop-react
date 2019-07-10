@@ -23,6 +23,10 @@ class Carrito extends Component {
         }, 0 );
     }
 
+    goBack = () => {
+        this.props.history.goBack();
+    }
+
     render() {
         return (
             <div>
@@ -57,7 +61,7 @@ class Carrito extends Component {
                                 <div className="col s12 m6">
                                     <h3>Total: {this.sumaProductos()}</h3>
                                     <br/>
-                                    <button className="waves-effect waves-light btn">
+                                    <button className="waves-effect waves-light btn" onClick={this.goBack}>
                                         Cancelar
                                     </button>
                                     <button className="waves-effect waves-light btn">
@@ -74,7 +78,7 @@ class Carrito extends Component {
 }
 
 const mapStateToProps = state => ({
-    carrito: state.productos.carrito
+    carrito: state.productos.carrito,
 });
 
 const mapDispatchToProps = dispatch => ({
