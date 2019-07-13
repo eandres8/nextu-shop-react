@@ -3,7 +3,7 @@ import AppFrame from '../../components/AppFrame/AppFrame';
 import {Link} from 'react-router-dom';
 // Import Materialize
 import M from "materialize-css";
-import { SERVER } from '../../constants';
+import { SERVER, SERVER_API } from '../../constants';
 
 class Detalle extends Component {
 
@@ -23,7 +23,7 @@ class Detalle extends Component {
 
     getProducto = ( id ) => {
         this.setState({loading:true});
-        fetch(`${SERVER}/productos/${id}`)
+        fetch(`${SERVER_API}/productos/${id}`)
             .then( data => data.json() )
             .then( product => {
                 let producto = { ...product, img: `${SERVER}/img/${product.img}` };

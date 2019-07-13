@@ -7,6 +7,9 @@ import './Carrito.css';
 // actions
 import { setearProductos } from '../../actions/productos.action';
 
+// api
+import { payCarrito } from '../../api/productos.api';
+
 class Carrito extends Component {
 
     constructor(props) {
@@ -14,6 +17,7 @@ class Carrito extends Component {
         this.state = {
             carrito: this.props.carrito,
         };
+        this.pagarCarrito = this.pagarCarrito.bind(this);
         console.log(this.state);
     }
 
@@ -25,6 +29,11 @@ class Carrito extends Component {
 
     goBack = () => {
         this.props.history.goBack();
+    }
+
+    pagarCarrito = () => {
+        payCarrito( this.state.carrito )
+            .then( alert );
     }
 
     render() {
@@ -64,7 +73,7 @@ class Carrito extends Component {
                                     <button className="waves-effect waves-light btn" onClick={this.goBack}>
                                         Cancelar
                                     </button>
-                                    <button className="waves-effect waves-light btn">
+                                    <button className="waves-effect waves-light btn" onClick={this.pagarCarrito}>
                                         Pagar
                                     </button>
                                 </div>

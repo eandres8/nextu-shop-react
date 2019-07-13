@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // Import Materialize
 import M from "materialize-css";
 import './Login.css';
-import { SERVER } from '../../constants';
+import { SERVER, SERVER_API } from '../../constants';
 
 class Login extends Component {
 
@@ -52,7 +52,7 @@ class Login extends Component {
 			pass: this.state.pass,
 		};
 
-		fetch(`${SERVER}/login`, {
+		fetch(`${SERVER_API}/login`, {
 			method: 'POST',
 			body: JSON.stringify(body),
 			headers: {
