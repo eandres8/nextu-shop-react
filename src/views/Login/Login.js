@@ -73,8 +73,11 @@ class Login extends Component {
 	}
 
 	render() {
+		const divStyle = {
+			backgroundImage: `url('${SERVER}/login-fondo.jpg')`
+		}
 		return (
-			<main className="login-container">
+			<main className="login-container" style={divStyle}>
 				<center>
 					<div className="section"></div>
 					<div className="section"></div>
