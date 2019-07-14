@@ -19,6 +19,7 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
+		localStorage.clear();
 		M.AutoInit();
 	}
 
@@ -63,6 +64,7 @@ class Login extends Component {
 		.then( data => {
 			console.warn( "data", data );
 			if ( data.ok ) {
+				localStorage.setItem('rtoken', this.state.user );
 				this.props.history.push('/');
 			} else {
 				this.setState({error: data.message});
