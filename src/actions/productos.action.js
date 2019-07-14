@@ -1,4 +1,4 @@
-import { SET_PRODUCTS, SET_CARRITO, REPLACE_CARRITO } from '../constants';
+import { SET_PRODUCTS, SET_CARRITO, REPLACE_CARRITO, CLEAR_CARRITO } from '../constants';
 
 export const setearProductos = (productos) => ({
     type: SET_PRODUCTS,
@@ -12,6 +12,11 @@ export const setCarrito = ( producto ) => ({
     payload: {
         producto
     }
+});
+
+export const clearCarrito = () => ({
+    type: CLEAR_CARRITO,
+    payload: {}
 });
 
 export const replaceCarrito = (carrito) => ({

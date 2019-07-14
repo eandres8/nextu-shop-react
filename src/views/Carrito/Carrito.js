@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './Carrito.css';
 
 // actions
-import { setearProductos } from '../../actions/productos.action';
+import { setearProductos, clearCarrito } from '../../actions/productos.action';
 
 // api
 import { payCarrito } from '../../api/productos.api';
@@ -32,8 +32,22 @@ class Carrito extends Component {
     }
 
     pagarCarrito = () => {
+        if (this.state.carrito.length <= 0 ) {
+            return;
+        }
         payCarrito( this.state.carrito )
-            .then( alert );
+            .then( data => {
+                if ( data.ok ) {
+                    alert('Se realizo el pago correctamente');
+                    this.props._clearCarrito();
+                    this.props.history.goBack();
+                }else{
+                    alert('No se pudo realizar el pago');    
+                }
+            } )
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     render() {
@@ -92,6 +106,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     _setearProductos: value => dispatch(setearProductos(value)),
+    _clearCarrito: value => dispatch(clearCarrito(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Carrito);

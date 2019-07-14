@@ -1,5 +1,5 @@
 // constants
-import { SET_PRODUCTS, SET_CARRITO, REPLACE_CARRITO } from '../constants';
+import { SET_PRODUCTS, SET_CARRITO, REPLACE_CARRITO, CLEAR_CARRITO } from '../constants';
 
 // initialState
 import { initialState } from './initialState';
@@ -16,6 +16,12 @@ const productos = (state = initialState, action) => {
             return {
                 ...state,
                 carrito: [...state.carrito, action.payload.producto]
+            };
+
+        case CLEAR_CARRITO:
+            return {
+                ...state,
+                carrito: []
             };
 
         case REPLACE_CARRITO:

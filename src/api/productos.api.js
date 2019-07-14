@@ -12,18 +12,22 @@ export const requestProducts = () => {
 }
 
 export const payCarrito = ( carrito ) => {
+
     let _body = {
-        compra: carrito
-    }
-    let fetchOpt = {
-        url: `${SERVER_API}/productos`,
-        method: 'post',
-        body: JSON.stringify(_body)
+        productos: carrito
     };
 
-    console.log(fetchOpt);
+    console.log(_body);
 
-    return fetch(fetchOpt)
+    let fetchOpt = {
+        method: 'post',
+        body: JSON.stringify(_body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    return fetch(`${SERVER_API}/productos`, fetchOpt)
         .then(data => data.json())
         .then(data => data)
         .catch(console.log);
