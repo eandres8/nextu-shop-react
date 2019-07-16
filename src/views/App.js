@@ -13,7 +13,7 @@ import Detalle from './Detalle/Detalle';
 function App() {
 	return (
 		<div className="App">
-			<Router>
+			<Router basename="/react">
 				<Route path="/login" component={Login} />
 				<PrivateRoute exact path="/" component={Home} />
 				<PrivateRoute path="/carrito" component={Carrito} />
